@@ -1,6 +1,9 @@
 package com.travishegner.RowSimTest
 
 import org.apache.mahout.math.cf.SimilarityAnalysis
+import org.apache.mahout.math.drm.DrmLike
+import org.apache.mahout.math.indexeddataset.IndexedDatasetWriteBooleanSchema
+import org.apache.mahout.sparkbindings.SparkDistributedContext
 import org.apache.mahout.sparkbindings.indexeddataset.IndexedDatasetSpark
 import org.apache.spark.{SparkContext, SparkConf}
 
@@ -8,27 +11,54 @@ import org.apache.spark.{SparkContext, SparkConf}
  * Created by thegner on 7/9/15.
  */
 object RowSimTest extends App{
-  val data = Array(
-    ("doc1", "tag1"),
-    ("doc2", "tag1"),
-    ("doc3", "tag1"),
-    ("doc3", "tag2"),
-    ("doc4", "tag2"),
-    ("doc4", "tag5"),
-    ("doc5", "tag2"),
-    ("doc5", "tag3"),
-    ("doc5", "tag4"),
-    ("doc5", "tag5")
-  )
   val conf = new SparkConf setAppName "RowSimTest"
   val sc = new SparkContext(conf)
+
+  val data = Array(
+    ("277364","3619FF503CBB824294A39FED29E08CD0"),
+    ("298162","44FF4A553E30D7E8FB7EBAD2F90C776E"),
+    ("280332","3619FF503CBB824294A39FED29E08CD0"),
+    ("290846","EAE1149AE7FD3CB5C95F726CC2B5BE02"),
+    ("287756","6F7A108F83995CFAABA1A46DFEED6540"),
+    ("288730","A745F2EB7224EB330DFC0F2D8D3C39D5"),
+    ("297610","206270CAF28AB379F87C2F741AA6FAEC"),
+    ("297894","EE06E6F6B9C2B37710FBE248F9F4762E"),
+    ("272692","3619FF503CBB824294A39FED29E08CD0"),
+    ("296176","206270CAF28AB379F87C2F741AA6FAEC"),
+    ("285371","3F5B9A17314E241A8FAD421D20F1CC8A"),
+    ("288237","A745F2EB7224EB330DFC0F2D8D3C39D5"),
+    ("288167","A745F2EB7224EB330DFC0F2D8D3C39D5"),
+    ("277337","3619FF503CBB824294A39FED29E08CD0"),
+    ("292989","206270CAF28AB379F87C2F741AA6FAEC"),
+    ("288163","A745F2EB7224EB330DFC0F2D8D3C39D5"),
+    ("288423","6F7A108F83995CFAABA1A46DFEED6540"),
+    ("277935","EE06E6F6B9C2B37710FBE248F9F4762E"),
+    ("287753","6F7A108F83995CFAABA1A46DFEED6540"),
+    ("297981","1C359E8339D4BCC3EA24058688A7D432"),
+    ("272415","48FAE0CA541CC3FD2701793130830160"),
+    ("272415","908AC36A5A8F7DD6136FD407BE1D6BE2"),
+    ("272415","48A2C743118C1B16327DF97BB04EB4AA"),
+    ("272415","C72D81070A9B76F6C90CDA066C61BA33"),
+    ("272415","3F0960DF87759CBC29EC534061DEE852"),
+    ("272415","6020B8A5A4200A83284E68DB6EC14A23"),
+    ("272415","7B729D8B0881AE3479CE3C741D689270"),
+    ("272415","478EDAF0EE6D381CFB61B6FC1DA1977D"),
+    ("272415","C77151C16414B2EF0DD2B8CEB7180CF5"),
+    ("272415","B77DE1E594AB934CDF111432F07E0E38"),
+    ("272415","7516132C51E75CE65534CBDCC96C2C45"),
+    ("272415","A398735204C0606927167B4E55B54C66"),
+    ("272415","B72ED67875ADC71A1B2024B7158FE9F5"),
+    ("272415","47BBE2ADBE0AC688D540D046086BB820"),
+    ("272415","0A262C926F5CA2F6B5DA4309ECC664E1"),
+    ("272415","889247FBCE7EC9B412AB96DDBB3A10EF"),
+    ("272415","DC6E82EEAC30A649B704798D093C1D2E"),
+    ("272415","D825D16C0A9924DB4CA7D31E3B63BAB9"),
+    ("288165","A745F2EB7224EB330DFC0F2D8D3C39D5")
+  )
 
   val pdata = sc.parallelize(data)
   val ids = IndexedDatasetSpark(pdata)(sc)
 
-  println(ids.matrix.toString)
-
   val sims = SimilarityAnalysis.rowSimilarityIDS(ids)
-
-  println(sims.toString)
+  println(sims.matrix.collect.asFormatString())
 }
