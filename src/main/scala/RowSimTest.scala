@@ -140,8 +140,16 @@ object RowSimTest extends App{
  )
 
   val pdata = sc.parallelize(data)
-  val ids = IndexedDatasetSpark(pdata)(sc)
 
+  //This block fails sporadically
+  val ids = IndexedDatasetSpark(pdata)(sc)
   val sims = SimilarityAnalysis.rowSimilarityIDS(ids, 0xdeadbeef, Int.MaxValue, Int.MaxValue)
   println(sims.matrix.collect.asFormatString())
+
+  /*
+  //This block succeeds every time
+  val sdi = IndexedDatasetSpark(pdata map (r => (r._2, r._1)))(sc)
+  val cooc = SimilarityAnalysis.cooccurrencesIDSs(Array(sdi), 0xdeadbeef, Int.MaxValue, Int.MaxValue)
+  println(cooc.head.matrix.collect.asFormatString())
+  */
 }
