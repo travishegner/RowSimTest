@@ -1,9 +1,6 @@
 package com.travishegner.RowSimTest
 
 import org.apache.mahout.math.cf.SimilarityAnalysis
-import org.apache.mahout.math.drm.DrmLike
-import org.apache.mahout.math.indexeddataset.IndexedDatasetWriteBooleanSchema
-import org.apache.mahout.sparkbindings.SparkDistributedContext
 import org.apache.mahout.sparkbindings.indexeddataset.IndexedDatasetSpark
 import org.apache.spark.{SparkContext, SparkConf}
 
@@ -11,7 +8,14 @@ import org.apache.spark.{SparkContext, SparkConf}
  * Created by thegner on 7/9/15.
  */
 object RowSimTest extends App{
-  val conf = new SparkConf setAppName "RowSimTest"
+  val conf = (new SparkConf)
+    .setAppName("RowSimTest")
+    .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+    .set("spark.kryo.registrator", "org.apache.mahout.sparkbindings.io.MahoutKryoRegistrator")
+    .set("spark.kryo.referenceTracking", "false")
+    .set("spark.kryoserializer.buffer.mb", "300")
+    .set("spark.executor.memory", "4g")
+
   val sc = new SparkContext(conf)
 
   val data = Array(
