@@ -1,8 +1,13 @@
 package com.travishegner.RowSimTest
 
+import java.io.{BufferedWriter, FileWriter, File}
+
 import org.apache.mahout.math.cf.SimilarityAnalysis
+import org.apache.mahout.math.indexeddataset.{IndexedDataset, IndexedDatasetWriteBooleanSchema}
+import org.apache.mahout.sparkbindings.SparkDistributedContext
 import org.apache.mahout.sparkbindings.indexeddataset.IndexedDatasetSpark
 import org.apache.spark.{SparkContext, SparkConf}
+import org.apache.mahout.drivers.TextDelimitedIndexedDatasetWriter
 
 /**
  * Created by thegner on 7/9/15.
@@ -10,11 +15,12 @@ import org.apache.spark.{SparkContext, SparkConf}
 object RowSimTest extends App{
   val conf = (new SparkConf)
     .setAppName("RowSimTest")
-    .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
-    .set("spark.kryo.registrator", "org.apache.mahout.sparkbindings.io.MahoutKryoRegistrator")
-    .set("spark.kryo.referenceTracking", "false")
-    .set("spark.kryoserializer.buffer.mb", "300")
-    .set("spark.executor.memory", "4g")
+    .set("spark.hadoop.validateOutputSpecs", "false")
+//    .set("spark.serializer", "org.apache.spark.serializer.KryoSerializer")
+//    .set("spark.kryo.registrator", "org.apache.mahout.sparkbindings.io.MahoutKryoRegistrator")
+//    .set("spark.kryo.referenceTracking", "false")
+//    .set("spark.kryoserializer.buffer.mb", "300")
+//    .set("spark.executor.memory", "4g")
 
   val sc = new SparkContext(conf)
 
@@ -33,6 +39,41 @@ object RowSimTest extends App{
 ("278488","889247FBCE7EC9B412AB96DDBB3A10EF"),
 ("278488","DC6E82EEAC30A649B704798D093C1D2E"),
 ("278488","D825D16C0A9924DB4CA7D31E3B63BAB9"),
+("277342","3619FF503CBB824294A39FED29E08CD0"),
+("278488","B77DE1E594AB934CDF111432F07E0E38"),
+("278488","7516132C51E75CE65534CBDCC96C2C45"),
+    ("278488","A398735204C0606927167B4E55B54C66"),
+    ("278488","B72ED67875ADC71A1B2024B7158FE9F5"),
+    ("278488","47BBE2ADBE0AC688D540D046086BB820"),
+    ("278488","0A262C926F5CA2F6B5DA4309ECC664E1"),
+    ("278488","889247FBCE7EC9B412AB96DDBB3A10EF"),
+    ("278488","DC6E82EEAC30A649B704798D093C1D2E"),
+    ("278488","D825D16C0A9924DB4CA7D31E3B63BAB9"),
+    ("278488","48FAE0CA541CC3FD2701793130830160"),
+    ("278488","908AC36A5A8F7DD6136FD407BE1D6BE2"),
+    ("278488","48A2C743118C1B16327DF97BB04EB4AA"),
+    ("278488","C72D81070A9B76F6C90CDA066C61BA33"),
+    ("278488","3F0960DF87759CBC29EC534061DEE852"),
+    ("278488","6020B8A5A4200A83284E68DB6EC14A23"),
+    ("278488","7B729D8B0881AE3479CE3C741D689270"),
+    ("278488","478EDAF0EE6D381CFB61B6FC1DA1977D"),
+    ("278488","C77151C16414B2EF0DD2B8CEB7180CF5"),
+    ("277338","3619FF503CBB824294A39FED29E08CD0"),
+    ("288166","A745F2EB7224EB330DFC0F2D8D3C39D5"),
+    ("277316","3619FF503CBB824294A39FED29E08CD0"),
+    ("298416","8F192D90F568DE1BE9FD82DD0DBCAB81"),
+    ("271942","5A8DD36FD8A9CDFFA56AB5C34B4477FB"),
+    ("288732","A745F2EB7224EB330DFC0F2D8D3C39D5"),
+    ("277418","3619FF503CBB824294A39FED29E08CD0"),
+    ("277364","3619FF503CBB824294A39FED29E08CD0"),
+    ("298162","44FF4A553E30D7E8FB7EBAD2F90C776E"),
+    ("280332","3619FF503CBB824294A39FED29E08CD0"),
+    ("290846","EAE1149AE7FD3CB5C95F726CC2B5BE02"),
+    ("287756","6F7A108F83995CFAABA1A46DFEED6540"),
+    ("288730","A745F2EB7224EB330DFC0F2D8D3C39D5"),
+    ("297610","206270CAF28AB379F87C2F741AA6FAEC"),
+    ("297894","EE06E6F6B9C2B37710FBE248F9F4762E"),
+    ("272692","3619FF503CBB824294A39FED29E08CD0"),
 ("278488","48FAE0CA541CC3FD2701793130830160"),
 ("278488","908AC36A5A8F7DD6136FD407BE1D6BE2"),
 ("278488","48A2C743118C1B16327DF97BB04EB4AA"),
@@ -64,6 +105,18 @@ object RowSimTest extends App{
 ("278900","5A8DD36FD8A9CDFFA56AB5C34B4477FB"),
 ("277388","3619FF503CBB824294A39FED29E08CD0"),
 ("298374","AE94BE3CD532CE4A025884819EB08C98"),
+    ("298374","AE94BE3CD532CE4A025884819EB08C98"),
+    ("278490","B77DE1E594AB934CDF111432F07E0E38"),
+    ("278490","7516132C51E75CE65534CBDCC96C2C45"),
+    ("278490","A398735204C0606927167B4E55B54C66"),
+    ("278490","B72ED67875ADC71A1B2024B7158FE9F5"),
+    ("278490","47BBE2ADBE0AC688D540D046086BB820"),
+    ("278490","0A262C926F5CA2F6B5DA4309ECC664E1"),
+    ("278490","889247FBCE7EC9B412AB96DDBB3A10EF"),
+    ("278490","DC6E82EEAC30A649B704798D093C1D2E"),
+    ("278490","D825D16C0A9924DB4CA7D31E3B63BAB9"),
+    ("278490","48FAE0CA541CC3FD2701793130830160"),
+    ("278490","908AC36A5A8F7DD6136FD407BE1D6BE2"),
 ("278490","B77DE1E594AB934CDF111432F07E0E38"),
 ("278490","7516132C51E75CE65534CBDCC96C2C45"),
 ("278490","A398735204C0606927167B4E55B54C66"),
@@ -147,13 +200,8 @@ object RowSimTest extends App{
 
   //This block fails sporadically
   val ids = IndexedDatasetSpark(pdata)(sc)
-  val sims = SimilarityAnalysis.rowSimilarityIDS(ids, 0xdeadbeef, Int.MaxValue, Int.MaxValue)
-  println(sims.matrix.collect.asFormatString())
+  //val ids = IndexedDatasetSpark(pdata map (r => (r._2, r._1)))(sc)
 
-  /*
-  //This block succeeds every time
-  val sdi = IndexedDatasetSpark(pdata map (r => (r._2, r._1)))(sc)
-  val cooc = SimilarityAnalysis.cooccurrencesIDSs(Array(sdi), 0xdeadbeef, Int.MaxValue, Int.MaxValue)
-  println(cooc.head.matrix.collect.asFormatString())
-  */
+  val sims = ids.create(SimilarityAnalysis.rowSimilarity(ids.matrix, 0xdeadbeef, Int.MaxValue, Int.MaxValue), ids.rowIDs, ids.rowIDs)
+  sims.dfsWrite("sims.txt", IndexedDatasetWriteBooleanSchema)(new SparkDistributedContext(sc))
 }
